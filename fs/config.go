@@ -16,7 +16,7 @@ import (
 	"log"
 	"os"
 	"os/user"
-	"path/filepath"
+	"path"
 	"regexp"
 	"sort"
 	"strconv"
@@ -234,16 +234,16 @@ func makeConfigPath() string {
 	xdgdir := os.Getenv("XDG_CONFIG_HOME")
 	var xdgcfgdir string
 	if xdgdir != "" {
-		xdgcfgdir = filepath.Join(xdgdir, "rclone")
+		xdgcfgdir = path.Join(xdgdir, "rclone")
 	} else if homedir != "" {
-		xdgdir = filepath.Join(homedir, ".config")
-		xdgcfgdir = filepath.Join(xdgdir, "rclone")
+		xdgdir = path.Join(homedir, ".config")
+		xdgcfgdir = path.Join(xdgdir, "rclone")
 	}
 
 	// Use $XDG_CONFIG_HOME/rclone/rclone.conf if already existing
 	var xdgconf string
 	if xdgcfgdir != "" {
-		xdgconf = filepath.Join(xdgcfgdir, configFileName)
+		xdgconf = path.Join(xdgcfgdir, configFileName)
 		_, err := os.Stat(xdgconf)
 		if err == nil {
 			return xdgconf
@@ -253,7 +253,7 @@ func makeConfigPath() string {
 	// Use $HOME/.rclone.conf if already existing
 	var homeconf string
 	if homedir != "" {
-		homeconf = filepath.Join(homedir, hiddenConfigFileName)
+		homeconf = path.Join(homedir, hiddenConfigFileName)
 		_, err := os.Stat(homeconf)
 		if err == nil {
 			return homeconf
